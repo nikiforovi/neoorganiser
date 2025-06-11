@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO Organizer | Умный органайзер для цифровой эпохи</title>
+    <style>
+        /* Хай-тек стили */
+        :root {
+            --primary: #00f0ff;
+            --secondary: #003366;
+            --dark: #0a0a1a;
+            --light: #e0e0e0;
+            --accent: #ff00aa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+        }
+        
+        @font-face {
+            font-family: 'Rajdhani';
+            src: url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;700&display=swap');
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Глянцевый эффект */
+        .glossy {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+        }
+        
+        /* Неоновые эффекты */
+        .neon-text {
+            text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary);
+        }
+        
+        .neon-border {
+            box-shadow: 0 0 10px var(--primary), inset 0 0 10px var(--primary);
+        }
+        
+        /* Анимации */
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+        
+        @keyframes slide {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        /* Шапка */
+        header {
+            background: linear-gradient(to right, var(--dark), var(--secondary));
+            padding: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+            animation: pulse 3s infinite;
+        }
+        
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Основной контент */
+        .hero {
+            display: flex;
+            align-items: center;
+            padding: 20px 0;
+            gap: 60px;
+            position: relative;
+        }
+        
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(0, 240, 255, 0.3), transparent);
+        }
+        
+        .hero-image {
+            flex: 1;
+            position: relative;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            border-radius: 15px;
+            transition: transform 0.5s ease;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-image::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            z-index: 1;
+            opacity: 0.5;
+            animation: pulse 4s infinite;
+        }
+        
+        .hero-content {
+            flex: 1;
+            margin-top: 50px;
+        }
+        
+        .hero-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .hero-content h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), transparent);
+        }
+        
+        .hero-content p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .highlight {
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        /* Особенности */
+        .features {
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .features::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(0,240,255,0.03)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            padding: 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2);
+        }
+        
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.05), rgba(0, 240, 255, 0.02));
+            z-index: -1;
+        }
+        
+        .feature-card h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-card h3::before {
+            content: "◆";
+            color: var(--accent);
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .feature-card p {
+            font-size: 1.05rem;
+        }
+        
+        /* Галерея */
+        .gallery {
+            padding: 80px 0;
+        }
+        
+        .gallery h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            height: 400px;
+            transition: all 0.4s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-item::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0, 0, 26, 0.7), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+        
+        /* Подвал */
+        footer {
+            background: linear-gradient(to right, var(--secondary), var(--dark));
+            padding: 40px 0 60px;
+            position: relative;
+            margin-top: 80px;
+        }
+        
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+        }
+        
+        .footer-content {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+        
+        .footer-content p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .marquee {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .marquee span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: slide 15s linear infinite;
+            color: var(--primary);
+            font-size: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: var(--dark);
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 240, 255, 0.4);
+        }
+        
+        .cta-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-content h2::after {
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80%;
+            }
+            
+            header h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content h2 {
+                font-size: 2rem;
+            }
+            
+            .features h2, .gallery h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header>
+        <div class="container">
+            <h1 class="neon-text">NEO Organizer</h1>
+            <p>Универсальный канцелярский органайзер. Порядок на столе - порядок в голове</p>
+        </div>
+    </header>
+    
+    <!-- Основной контент -->
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-image glossy">
+                    <img src="Снимок экрана (14).png" alt="NEO Organizer">
+                </div>
+                <div class="hero-content">
+                    <h2>Реинкарнация порядка</h2>
+                    <p><span class="highlight">NEO Organizer</span> — это не просто органайзер, это технологичный хаб для вашего рабочего пространства, сочетающий в себе инновационный дизайн и продуманную эргономику.</p>
+                    <p>Созданный для тех, кто ценит порядок и функциональность, наш органайзер трансформирует хаос на вашем столе в безупречную систему хранения. <span class="highlight">7 специализированных отделений</span> обеспечивают идеальную организацию всех необходимых предметов.</p>
+                    <p><span class="highlight">Отсек для флэшек</span> обеспечивает систематизированое хранение ваших накопителей, а <span class="highlight">угол наклона 10°</span> в подставке для телефона обеспечивает идеальный обзор экрана. Отделение для бумаги гарантирует быстрый доступ к важным документам.</p>
+                    <p>Изготовленный из <span class="highlight">экологичного полилактида</span>, NEO Organizer сочетает прочность и стиль, становясь не просто аксессуаром, а частью вашего рабочего ритуала.</p>
+                    <a href="#features" class="cta-button">Исследовать возможности</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Особенности -->
+        <section class="features" id="features">
+            <div class="container">
+                <h2>Технологические преимущества</h2>
+                <div class="features-grid">
+                    <div class="feature-card glossy">
+                        <h3>Универсальность</h3>
+                        <p>Органайзер сочетает несколько функций: хранение канцелярии, флэшек, место для телефона и документов в одном компактном корпусе.</p>
+                    </div>
+                    <div class="feature-card glossy">
+                        <h3>Компактность</h3>
+                        <p>Несмотря на множество отделений, органайзер занимает минимум места на столе благодаря продуманной конструкции.</p>
+                    </div>
+                    <div class="feature-card glossy">
+                        <h3>Универсальная интеграция</h3>
+                        <p>Полная совместимость с любыми рабочими пространствами. Органайзер адаптируется под ваши нужды, будь то домашний офис, коворкинг или корпоративный кабинет.</p>
+                    </div>
+                    <div class="feature-card glossy">
+                        <h3>Эргономика</h3>
+                        <p>Все предметы находятся в зоне легкой досягаемости. Отделение для бумаг обеспечивает удобный доступ к документам.</p>
+                    </div>
+                    <div class="feature-card glossy">
+                        <h3>Стильный дизайн</h3>
+                        <p>Современный минималистичный дизайн органично впишется в любой интерьер, от классического до хай-тек.</p>
+                    </div>
+                    <div class="feature-card glossy">
+                        <h3>Удобство использования</h3>
+                        <p>Специальные отделения для флэшек предотвращают их потерю, а удобная подставка для телефона позволяет всегда держать гаджет под рукой.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Галерея -->
+        <section class="gallery">
+            <div class="container">
+                <h2>Галерея решений</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item glossy">
+                        <img src="Снимок экрана (15).png" alt="Отделение для флэшек">
+                    </div>
+                    <div class="gallery-item glossy">
+                        <img src="Снимок экрана (8).png" alt="Подставка для телефона">
+                    </div>
+                    <div class="gallery-item glossy">
+                        <img src="Снимок экрана (10).png" alt="Отделение для бумаг">
+                    </div>
+                    <div class="gallery-item glossy">
+                        <img src="Снимок экрана (7).png" alt="Общий вид органайзера">
+                    </div>
+                    <div class="gallery-item glossy">
+                        <img src="Снимок экрана (9).png" alt="Подставка для телефона">
+                    </div>
+                    <div class="gallery-item glossy">
+                        <img src="Снимок экрана (11).png" alt="Отделение для бумаг">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>NEO Organizer — переосмысление организации пространства</p>
+                <p>© 2025 Все права защищены.</p>
+                <p>Свяжитесь с нами: info@neoorganizer.tech</p>
+            </div>
+            <div class="marquee">
+                <span>Сириус 2025. Все права защищены. ••• Сириус 2025. Все права защищены. ••• Сириус 2025. Все права защищены.</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
